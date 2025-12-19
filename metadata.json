@@ -1,0 +1,5 @@
+{
+  "name": "Tiro e Queda - Jogo de Lógica",
+  "description": "Um viciante jogo de lógica onde você deve adivinhar um número secreto de 4 dígitos usando pistas de 'Tiro' e 'Queda'.",
+  "requestFramePermissions": []
+}

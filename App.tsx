@@ -4,6 +4,7 @@ import { Attempt, GameState } from './types';
 import { generateSecretNumber, calculateResult, validateGuess } from './logic/gameEngine';
 import { HistoryTable } from './components/HistoryTable';
 import { GameHeader } from './components/GameHeader';
+import { RulesModal } from './components/RulesModal';
 
 const INITIAL_SCORE = 1000;
 const MAX_ATTEMPTS = 10;
@@ -16,6 +17,7 @@ const App: React.FC = () => {
   const [gameState, setGameState] = useState<GameState>('playing');
   const [score, setScore] = useState(INITIAL_SCORE);
   const [error, setError] = useState<string | null>(null);
+  const [isRulesOpen, setIsRulesOpen] = useState(false);
   
   const [isDarkMode, setIsDarkMode] = useState(() => {
     if (typeof window !== 'undefined') {
@@ -88,22 +90,36 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 py-8 px-4 flex flex-col items-center transition-colors duration-300">
+      <RulesModal isOpen={isRulesOpen} onClose={() => setIsRulesOpen(false)} />
+      
       <div className="max-w-md w-full flex-grow space-y-6 relative">
-        <button
-          onClick={() => setIsDarkMode(!isDarkMode)}
-          className="absolute -top-4 -right-2 p-3 rounded-full bg-white dark:bg-slate-800 shadow-lg text-slate-600 dark:text-yellow-400 hover:scale-110 transition-all border border-slate-100 dark:border-slate-700 active:scale-95 z-10"
-          title={isDarkMode ? "Mudar para modo claro" : "Mudar para modo escuro"}
-        >
-          {isDarkMode ? (
+        <div className="absolute -top-4 -right-2 flex gap-3 z-10">
+          <button
+            onClick={() => setIsRulesOpen(true)}
+            className="p-3 rounded-full bg-white dark:bg-slate-800 shadow-lg text-slate-600 dark:text-slate-300 hover:scale-110 transition-all border border-slate-100 dark:border-slate-700 active:scale-95"
+            title="Regras"
+          >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 9H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
-          ) : (
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-            </svg>
-          )}
-        </button>
+          </button>
+          
+          <button
+            onClick={() => setIsDarkMode(!isDarkMode)}
+            className="p-3 rounded-full bg-white dark:bg-slate-800 shadow-lg text-slate-600 dark:text-yellow-400 hover:scale-110 transition-all border border-slate-100 dark:border-slate-700 active:scale-95"
+            title={isDarkMode ? "Mudar para modo claro" : "Mudar para modo escuro"}
+          >
+            {isDarkMode ? (
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 9H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
+              </svg>
+            ) : (
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+              </svg>
+            )}
+          </button>
+        </div>
 
         <div className="space-y-4">
           <GameHeader 
